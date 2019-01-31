@@ -1,0 +1,10 @@
+{
+  "name"             : "apis",
+  "script"           : "/data/www/production/prodathailand/apis/app.js",
+  "error_file"       : "/data/www/log/prodathailand/apis.error.txt",
+  "out_file"         : "/data/www/log/prodathailand/apis.out.txt",
+  "instances"        : 2,
+  "watch"            : true,
+  "ignore_watch"      : ["[\\/\\\\]\\./", "node_modules", ".svn"],
+  "log_date_format"  : "YYYY-MM-DD HH:mm:ss"
+}
