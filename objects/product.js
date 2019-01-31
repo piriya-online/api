@@ -1,309 +1,516 @@
-var util = require('../objects/util');
-
-
-exports.action = function(req, res, control, action, url) {
+exports.action = function(req, res, data) {
 
 	try {
-
-		if (action == 'all') {
-			util.query(req, res, control, 'data', 'EXEC sp_DataProduct \''+req.body.authKey+'\'');
-		}
-		else if (action == 'category') {
-			if (url[0] == 'url') {
-				if (typeof req.body.shop == 'undefined' || req.body.shop == '' ||
-					typeof req.body.url == 'undefined' || req.body.url == '' ) {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
+		if (data.action == 'info'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.type != 'undefined' && req.body.type != '' &&
+				typeof req.body.value != 'undefined' && req.body.value != '') {
+				var type = '|item|byCategoryName|byCategoryUrl4Web|byBrandName|byBrandUrl4Web|byProductName|'; // ชื่อ type ที่สามารถเรียกดูข้อมูลได้
+				if ( type.indexOf('|'+req.body.type+'|') == -1 ) { // ถ้าชื่อ Entity ไม่ถูกต้อง
+					data.json.return = true;
+					data.json.error = 'PRD0001';
+					data.json.errorMessage = 'Unknown type ' + req.body.type;
+					data.util.responseJson(req, res, data.json);
 				}
 				else {
-					util.queryMultiple(req, res, control, 'category_by_url', 'EXEC sp_DataProductByCategoryUrl \''+req.body.shop+'\', \''+req.body.url+'\'');
-				}
-			}
-			else if (url[0] == 'info') {
-				util.queryMultiple(req, res, control, 'product_info', 'EXEC sp_DataCategory');
-			}
-			else {
-				if (typeof req.body.shop == 'undefined' || req.body.shop == '') {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {
-					util.query(req, res, control, 'data', 'EXEC sp_DataProductGroup \''+req.body.shop+'\'');
-				}
-			}
-		}
-		else if (action == 'info') {
-			if (url[0] == 'id') {
-				if (typeof req.body.shop == 'undefined' || req.body.shop == '' ||
-					typeof req.body.id == 'undefined' || req.body.id == '' ) {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {
-					util.queryMultiple(req, res, control, 'product_info', 'EXEC sp_DataProductById \''+req.body.shop+'\', \''+req.body.id+'\'');
-				}
-			}
-			else if (url[0] == 'price') {
-				/*if (typeof req.body.category == 'undefined' || req.body.category == '' ) {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {*/
-					util.queryMultiple(req, res, control, 'product_price', 'EXEC sp_DataProductPriceByCategoryUrl \''+req.body.brand+'\',\''+req.body.category+'\'');
-				//}
-			}
-		}
-		else if (action == 'visible') {
-			if (url[0] == 'update') {
-				if (typeof req.body.product == 'undefined' || req.body.product == '' ||
-					typeof req.body.updateKey == 'undefined' || req.body.updateKey == '' ||
-					typeof req.body.bit == 'undefined' || req.body.bit == '' ) {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {
-					util.queryMultiple(req, res, control, 'product_price', 'EXEC sp_ProductVisibleUpdate \''+req.body.authKey+'\', \''+req.body.updateKey+'\', \''+req.body.product+'\', '+req.body.bit);
-				}
-			}
-		}
-		else if (action == 'stock') {
-			if (url[0] == 'update') {
-				if (typeof req.body.product == 'undefined' || req.body.product == '' ||
-					typeof req.body.updateKey == 'undefined' || req.body.updateKey == '' ||
-					typeof req.body.bit == 'undefined' || req.body.bit == '' ) {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {
-					util.queryMultiple(req, res, control, 'product_price', 'EXEC sp_ProductIsStockUpdate \''+req.body.authKey+'\', \''+req.body.updateKey+'\', \''+req.body.product+'\', '+req.body.bit);
-				}
-			}
-		}
-		else if (action == 'brand') {
-			if (url[0] == 'update') {
-			}
-			else {
-				if (typeof req.body.shop == 'undefined' || req.body.shop == '') {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {
-					util.query(req, res, control, 'data', 'EXEC sp_DataBrand \''+req.body.shop+'\'');
-				}
-			}
-		}
-		else if (action == 'category_and_brand') {
-			if (url[0] == 'update') {
-			}
-			else {
-				if (typeof req.body.shop == 'undefined' || req.body.shop == '') {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {
-					if (typeof req.body.authKey != 'undefined' && req.body.authKey != '') {
-						util.query(req, res, control, 'category_and_brand', 'EXEC sp_DataProductGroupAndBrandForShop \''+req.body.shop+'\', \''+req.body.authKey+'\'');
+					data.json.return = false;
+					if (req.body.type == 'byCategoryName') { 
+						data.json.returnResult = true;
+						data.command = 'EXEC sp_ShopProductByCategoryName \''+req.body.shop+'\', \''+req.body.value+'\', NULL, ' + 
+							( (typeof req.body.active != 'undefined' && req.body.active != '') ? '\''+req.body.active+'\'' : 'NULL' ) + 
+							', '+( (typeof req.body.visible != 'undefined' && req.body.visible != '') ? '\''+req.body.visible+'\'' : 'NULL' );
 					}
-					else {
-						util.query(req, res, control, 'category_and_brand', 'EXEC sp_DataProductGroupAndBrand \''+req.body.shop+'\'');
+					else if (req.body.type == 'byCategoryUrl4Web') {
+						data.json.returnResult = true;
+						data.command = 'EXEC sp_ShopProductByCategoryUrl \''+req.body.shop+'\', \''+req.body.value+'\'';
 					}
-				}
-			}
-		}
-		else if (action == 'sku') {
-			if (url[0] == 'active') {
-				if (typeof req.body.shop == 'undefined' || req.body.shop == '') {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {
-					util.query(req, res, control, 'data', 'EXEC sp_DataProductSkuActive \''+req.body.shop+'\'');
-				}
-			}
-			else {
-			}
-		}
-		else if (action == 'price') {
-			if (url[0] == 'update') {
-				if (typeof req.body.updateKey == 'undefined' || req.body.updateKey == '' ||
-					typeof req.body.product == 'undefined' || req.body.product == '' ||
-					typeof req.body.priceIndex == 'undefined' || req.body.priceIndex == '' ||
-					typeof req.body.oldPrice == 'undefined' || req.body.oldPrice == '' ||
-					typeof req.body.newPrice == 'undefined' || req.body.newPrice == '' ) {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else {
-					util.queryMultiple(req, res, control, 'product_price', 'EXEC sp_ProductPriceUpdate \''+req.body.authKey+'\', \''+req.body.updateKey+'\', \''+req.body.product+'\', \''+req.body.priceIndex+'\', '+req.body.oldPrice+', '+req.body.newPrice);
-				}
-			}
-		}
-		else if (action == 'image') {
-			if (url[0] == 'update') {
-				if (typeof req.body.shop == 'undefined' || req.body.shop == '' ||
-					typeof req.body.product == 'undefined' || req.body.product == '' ||
-					typeof req.body.path == 'undefined' || req.body.path == '' ||
-					typeof req.body.bytes == 'undefined' || req.body.bytes == '' ||
-					typeof req.body.modified == 'undefined' || req.body.modified == '' ||
-					typeof req.body.modifier == 'undefined' || req.body.modifier == '' ||
-					typeof req.body.system == 'undefined' || req.body.system == '' ) {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
-				}
-				else if ( isNaN(req.body.bytes) ) {
-					data.error = 'Please fill number of bytes';
-					res.json(data);
-				}
-				else if ( process.env.dropboxAllowSystem.indexOf(req.body.system) == -1 ) {
-					data.error = 'Your system do not allow access to use API';
-					res.json(data);
-				}
-				else {
-					util.batch(req, res, control, 'success', 'EXEC sp_ImageUpdate \''+req.body.shop+'\', \'product\', \''+req.body.product+'\', \''+req.body.path+'\', \''+req.body.bytes+'\', \''+req.body.mineType+'\', \''+req.body.revision+'\', \''+((req.body.size == '') ? '1N' : req.body.size)+'\', \''+req.body.modified+'\', \''+req.body.modifier+'\', \''+req.body.system+'\'');
-				}
-			}
-			else if (url[0] == 'list') {
-				/*var azure = require('azure-storage');
-				var retryOperations = new azure.ExponentialRetryPolicyFilter();
-				var blobSvc = azure.createBlobService().withFilter(retryOperations);
-				blobSvc.listBlobsSegmentedWithPrefix('img', 'products/'+req.body.shop+'/'+req.body.sku, null, function(error, result, response){
-					if(error){
-						res.send(error);
+					else if (req.body.type == 'item') {
+						data.command = 'EXEC sp_ShopProductItem \''+req.body.shop+'\', \''+req.body.value+'\'';
 					}
-					else {
-						var img = [];
-						for(i=0; i<result.entries.length; i++) {
-							img.push(result.entries[i].name.replace('products/'+req.body.shop+'/'+req.body.sku+'/', ''));
-						}
-						data.location = 'https://cdn24fin.blob.core.windows.net/img/products/'+req.body.shop+'/'+req.body.sku+'/';
-						data.result = img;
-						data.success = true;
-						delete data.error;
-						res.json(data);
+					else if (req.body.type == 'byBrandName') {
+						data.json.returnResult = true;
+						data.command = 'EXEC sp_ShopProductByBrandName \''+req.body.shop+'\', \''+req.body.value+'\', NULL, ' + 
+							( (typeof req.body.active != 'undefined' && req.body.active != '') ? '\''+req.body.active+'\'' : 'NULL' ) + 
+							', '+( (typeof req.body.visible != 'undefined' && req.body.visible != '') ? '\''+req.body.visible+'\'' : 'NULL' );
 					}
-				});*/
-				util.query(req, res, control, 'image', 'EXEC sp_DataProductImageList \''+req.body.shop+'\', \''+req.body.sku+'\'');
-			}
-			else if (url[0] == 'cover') {
-				if (typeof req.body.authKey == 'undefined' || req.body.authKey == '') {
-					data.error = 'Please fill out all required fields';
-					res.json(data);
+					else if (req.body.type == 'byBrandUrl4Web') {
+						data.json.returnResult = true;
+						data.command = 'EXEC sp_ShopProductByBrandUrl \''+req.body.shop+'\', \''+req.body.value+'\'';
+					}
+					else if (req.body.type == 'byProductName') {
+						data.json.returnResult = true;
+						data.command = 'EXEC sp_ShopProductByName \''+req.body.shop+'\', \''+req.body.value+'\'';
+					}
+					data.util.query(req, res, data); 
 				}
-				else {
-					util.query(req, res, control, 'data', 'EXEC sp_DataProductImage \''+req.body.authKey+'\'');
-				}
-			}
-			else {
 			}
 		}
 
-
-		else {
-			if (data.success) delete data.error;
-			res.json(data);
+		else if (data.action == 'add'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.name != 'undefined' && req.body.name != '') {
+				data.json.return = false;
+				data.util.getShop(req, res, data);
+			}
+		}
+		else if (data.action == 'update'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.id != 'undefined' && req.body.id != '' &&
+				typeof req.body.entity != 'undefined' && req.body.entity != '' &&
+				typeof req.body.value != 'undefined' && req.body.value != '') {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_ShopProductUpdate \''+req.body.shop+'\', \''+req.body.id+'\', \''+req.body.entity+'\', \''+req.body.value+'\'';
+					data.util.execute(req, res, data); 
+			}
+		}
+		else if (data.action == 'delete'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.id != 'undefined' && req.body.id != '') {
+				data.json.return = false;
+				data.util.getShop(req, res, data);
+			}
+		}
+		else if (data.action == 'category_and_brand'){
+			if (typeof req.body.token.memberKey != 'undefined' && req.body.token.memberKey != '') {
+				data.json.return = false;
+				data.command = 'EXEC sp_ProductCategoryAndBrandInfo \''+req.body.token.memberKey+'\'';
+				data.util.query(req, res, data);
+			}
+		}
+		else if (data.action == 'all'){
+			if (typeof req.body.token.memberKey != 'undefined' && req.body.token.memberKey != '') {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_ProductInfoList \''+req.body.token.memberKey+'\'';
+				data.util.query(req, res, data);
+			}
+		}
+		else if (data.action == 'mkdir'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '') {
+				data.json.return = false;
+				data.command = 'EXEC sp_ShopProduct4Mkdir \''+req.body.shop+'\'';
+				data.util.query(req, res, data); 
+			}
+		}
+		else if (data.action == 'pos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_ShopProductInfo \''+req.body.shop+'\'';
+				data.util.query(req, res, data)
+			}
+		}
+		else if (data.action == 'barcodePos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_ShopBarcodeInfo \''+req.body.shop+'\'';
+				data.util.query(req, res, data)
+			}
+		}
+		else if (data.action == 'barcodeClaimPos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_ShopBarcodeClaimInfo \''+req.body.shop+'\'';
+				data.util.query(req, res, data)
+			}
+		}
+		else if (data.action == 'updatePos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.id != 'undefined' && req.body.id != '' &&
+				typeof req.body.entity != 'undefined' && req.body.entity != '' &&
+				typeof req.body.value != 'undefined' && req.body.value != '') {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_Pos_ShopProductUpdate \''+req.body.shop+'\', \''+req.body.id+'\', \''+req.body.entity+'\', \''+req.body.value+'\'';
+					data.util.execute(req, res, data); 
+			}
+		}
+		else if (data.action == 'insertPos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_Pos_ShopProductInsert \''+req.body.shop+'\'';
+					data.util.execute(req, res, data); 
+			}
+		}
+		else if (data.action == 'updateBarcodePos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.id != 'undefined' && req.body.id != '' &&
+				typeof req.body.entity != 'undefined' && req.body.entity != '' &&
+				typeof req.body.value != 'undefined' && req.body.value != '') {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_Pos_ShopBarcodeUpdate \''+req.body.shop+'\', \''+req.body.id+'\', \''+req.body.entity+'\', \''+req.body.value+'\'';
+					data.util.query(req, res, data); 
+			}
+		}
+		else if (data.action == 'updateBarcodeClaimPos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.id != 'undefined' && req.body.id != '' &&
+				typeof req.body.entity != 'undefined' && req.body.entity != '' &&
+				typeof req.body.value != 'undefined' && req.body.value != '') {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_Pos_ShopBarcodeClaimUpdate \''+req.body.shop+'\', \''+req.body.id+'\', \''+req.body.entity+'\', \''+req.body.value+'\'';
+					data.util.execute(req, res, data); 
+			}
+		}
+		else if (data.action == 'receivedUpdate'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.order != 'undefined' && req.body.order != '' &&
+				typeof req.body.by != 'undefined' && req.body.by != '' ) {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_Pos_ShopReceivedProduct \''+req.body.shop+'\', \''+req.body.order+'\', \''+req.body.by+'\'';
+					data.util.execute(req, res, data); 
+			}
+		}
+		else if (data.action == 'infoNsPos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_ns_PurchaseOrderInfo \''+req.body.shop+'\'';
+				data.util.query(req, res, data)
+			}
+		}
+		else if (data.action == 'insertNsPos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_PONoSerialInsert \''+req.body.shop+'\'';
+				data.util.execute(req, res, data); 
+			}
+		}
+		else if (data.action == 'updateNsPos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.orderno != 'undefined' && req.body.orderno != '' &&
+				typeof req.body.id != 'undefined' && req.body.id != '' &&
+				typeof req.body.entity != 'undefined' && req.body.entity != '' &&
+				typeof req.body.value != 'undefined' && req.body.value != '') {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_Pos_ns_PurchaseOrderUpdate \''+req.body.shop+'\', \''+req.body.orderno+'\',\''+req.body.id+'\', \''+req.body.entity+'\', \''+req.body.value+'\'';
+					data.util.execute(req, res, data); 
+			}
+		}
+		else if (data.action == 'infoCount'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_InventoryCount \''+req.body.shop+'\'';
+				data.util.query(req, res, data)
+			}
+		}
+		else if (data.action == 'addCount'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' &&
+				typeof req.body.product != 'undefined' && req.body.product != '' &&
+				typeof req.body.quantity != 'undefined' && req.body.quantity != '' ) {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_Pos_InventoryCountInsert \''+req.body.shop+'\', \''+req.body.product+'\',\''+req.body.quantity+'\'';
+					data.util.execute(req, res, data); 
+			}
+		}
+		else if (data.action == 'deleteCount'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_InventoryCountDelete \''+req.body.shop+'\'';
+				data.util.execute(req, res, data)
+			}
+		}
+		else if (data.action == 'image'){
+			if (data.subAction[0] == 'barcode'){
+				if (typeof req.body.barcode != 'undefined' && req.body.barcode != '' ) {
+					data.json.return = false;
+					data.json.returnResult = true;
+					data.command = 'EXEC sp_ProductImageByBarcode \''+req.body.barcode+'\'';
+					data.util.query(req, res, data)
+				}
+			}
+		}
+		else if (data.action == 'productPos'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_ShopProduct \''+req.body.shop+'\'';
+				data.util.query(req, res, data)
+			}
+		}
+		else if (data.action == 'productCheck'){
+			if (typeof req.body.shop != 'undefined' && req.body.shop != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_Pos_CheckUpdate \''+req.body.shop+'\', \''+req.body.value+'\'';
+				data.util.execute(req, res, data)
+			}
+		}
+		else if (data.action == 'summaryStock'){
+			if (typeof req.body.date != 'undefined' && req.body.date != '' ) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_SummaryStock \''+req.body.date+'\', \''+req.body.brand+'\'';
+				data.util.query(req, res, data)
+			}
+		}
+		else if (data.action == 'imageIsNull'){			
+			data.json.return = false;
+			data.json.returnResult = true;
+			data.command = 'EXEC sp_ProductImageIsNullInfo \''+req.body.shop+'\'';
+			data.util.query(req, res, data)		
+		}
+		else if (data.action == 'updateImage'){	
+			var fs = require('fs');
+			var files = [];
+			var imageList = [];
+			try
+			{
+				files = fs.readdirSync('/data/mount/resources/img/product/'+req.body.sku+'/');
+			}
+			catch(error) {
+				console.log(error);
+			}
+			var type = '|jpg|jpeg|png|gif|'; // ชื่อ type รูปภาพ
+			var image = [];
+			for (f = 0; f < files.length; f++) {
+				var sp = files[f].toLowerCase().split('.');
+				if ( type.indexOf('|'+sp[sp.length-1]+'|') != -1 ) {
+					if ( data.util.isNumeric(parseInt(sp[0])) ) {
+						image.push( files[f] );
+						imageList.push(files[f]);
+					}
+					else if ( files[f].toLowerCase().substr(0,1) == 'd' ) {
+						imageList.push(files[f]);
+					}
+				}
+			}	
+			if (imageList.length > 0) {
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'UPDATE Product SET image = \''+imageList.toString()+'\' WHERE shop = 88888888 AND sku = \''+req.body.sku+'\'';
+				data.util.query(req, res, data);
+			}
+		}
+		else if (data.action == 'youtubeIsNull'){			
+			data.json.return = false;
+			data.json.returnResult = true;
+			data.command = 'EXEC sp_ProductYoutubeIsNullInfo \''+req.body.shop+'\'';
+			data.util.query(req, res, data)		
+		}
+		else if (data.action == 'updateYoutube'){
+			if (typeof req.body.id != 'undefined' && req.body.id != '' ) {			
+				data.json.return = false;
+				data.json.returnResult = true;
+				data.command = 'EXEC sp_ProductYoutubeIsUpdate \''+req.body.id+'\',\''+req.body.youtube+'\'';
+				data.util.execute(req, res, data)	
+			}	
+		}
+		else if (data.action == 'eventPrice'){		
+			data.json.return = false;
+			data.json.returnResult = true;
+			data.command = 'EXEC sp_EventProductPrice \''+req.body.shop+'\',\''+req.body.barcode+'\',\''+req.body.name+'\'';
+			data.util.query(req, res, data)		
+		}
+		else if (data.action == 'eventOrder'){		
+			data.json.return = false;
+			data.json.returnResult = true;
+			data.command = 'EXEC sp_EventProductOrder \''+req.body.shop+'\'';
+			data.util.query(req, res, data)		
+		}
+		else { 
+			data.json.error = 'API0011';
+			data.json.errorMessage = 'Action ' + data.action.toUpperCase() + ' is not implemented';
 		}
 
+		data.util.responseJson(req, res, data.json);
 
 	}
-	catch(err) {
-		data.error = err.message;
-		data.stack = err.stack;
-		res.json(data);
+	catch(error) {
+		data.util.responseError(req, res, error);
+	}
+};
+
+
+//## Internal Method ##//
+exports.process = function(req, res, data) {
+
+	if (data.action == 'mkdir') {
+		exports.mkdir(req, res, data);
+	}
+	else if (data.action == 'info') {
+		if (req.body.type == 'item') {
+			exports.getItemImage(req, res, data);
+		}
+		
+	}
+	else if (data.action == 'category_and_brand'){
+		exports.categoryAndBrand(req, res, data);
+	}
+	else {
+		data.json.error = 'API0002';
+		data.json.errorMessage = 'Unknow Action';
+		data.util.responseJson(req, res, data.json);
+	}
+};
+
+exports.mkdir = function(req, res, data) {
+	var shell = require('shelljs');
+	shell.exec('mkdir "/var/www/images/product/'+data.result[0].shop+'"', {async:false});
+	for(i=0; i<data.result.length; i++) {
+		shell.exec('mkdir "/var/www/images/product/'+data.result[i].sku+'"', {async:true});
+	}
+	data.json.return = true;
+	data.json.success = true;
+	data.util.responseJson(req, res, data.json);
+};
+
+exports.getItemImage = function(req, res, data) {
+
+	var imageList = [];
+	if ( data.result[0].image != null )
+	{
+		var sp = data.result[0].image.split(',');
+		imageList.push(sp[0]);
+		data.result[0].cover = sp[0];
+	}
+
+	var fs = require('fs');
+	delete data.result[0].image;
+
+	var files = [];
+	try
+	{
+		files = fs.readdirSync('/data/mount/resources/img/product/'+data.result[0].sku+'/');
+	}
+	catch(error) {
+		console.log(error);
+	}
+	var type = '|jpg|jpeg|png|gif|'; // ชื่อ type รูปภาพ
+	var image = [];
+	var imageDetail = [];
+	for (f = 0; f < files.length; f++) {
+		var sp = files[f].toLowerCase().split('.');
+		if ( type.indexOf('|'+sp[sp.length-1]+'|') != -1 ) {
+			if ( data.util.isNumeric(parseInt(sp[0])) ) {
+				image.push( files[f] );
+				imageList.push(files[f]);
+			}
+			else if ( files[f].toLowerCase().substr(0,1) == 'd' ) {
+				imageDetail.push( files[f] );
+				imageList.push(files[f]);
+			}
+		}
+	}
+	if (image.length > 0) {
+		data.result[0].image = image;
+	}
+	if (imageDetail.length > 0) {
+		imageDetail.sort();
+		data.result[0].imageDetail = imageDetail;
+	}
+
+	if ( data.result[0].detail != null )
+	{
+		var sp = data.result[0].detail.split("\n");
+		delete data.result[0].detail;
+		data.result[0].detail = [];
+		for(i=0; i<sp.length; i++) {
+			var msg = sp[i].trim();
+			if ( msg != '' ){
+				data.result[0].detail.push( (msg.substr(0,2) == '- ') ? msg.replace('- ', '') : msg );
+			}
+		}
+	}
+
+	if ( data.result[0].inBox != null )
+	{
+		var sp = data.result[0].inBox.split("\n");
+		delete data.result[0].inBox;
+		data.result[0].inBox = [];
+		for(i=0; i<sp.length; i++) {
+			var msg = sp[i].trim();
+			if ( msg != '' ){
+				data.result[0].inBox.push( (msg.substr(0,2) == '- ') ? msg.replace('- ', '') : msg );
+			}
+		}
+	}
+
+	if ( data.result[0].howToUse != null )
+	{
+		var sp = data.result[0].howToUse.split("\n");
+		delete data.result[0].howToUse;
+		data.result[0].howToUse = [];
+		for(i=0; i<sp.length; i++) {
+			var msg = sp[i].trim();
+			if ( msg != '' ){
+				data.result[0].howToUse.push( (msg.substr(0,2) == '- ') ? msg.replace('- ', '') : msg );
+			}
+		}
+	}
+
+	if ( data.result[0].specialProperties != null )
+	{
+		var sp = data.result[0].specialProperties.split("\n");
+		delete data.result[0].specialProperties;
+		data.result[0].specialProperties = [];
+		for(i=0; i<sp.length; i++) {
+			var msg = sp[i].trim();
+			if ( msg != '' ){
+				data.result[0].specialProperties.push( (msg.substr(0,2) == '- ') ? msg.replace('- ', '') : msg );
+			}
+		}
+	}
+
+	data.json.return = true;
+	data.json.result = data.result[0];
+
+	data.json.success = true;
+	data.util.responseJson(req, res, data.json);
+
+	if (imageList.length > 0) {
+		data.json.return = false;
+		data.json.returnResult = true;
+		data.command = 'UPDATE Product SET image = \''+imageList.toString()+'\' WHERE shop = \''+data.result[0].shop+'\' AND sku = \''+data.result[0].sku+'\'';
+		data.util.query(req, res, data);
 	}
 
 };
 
-
-
-exports.process = function(req, res, action, recordset) {
-  if (action == 'data') {
-	  data.success = true;
-	  data.correct = typeof recordset[0] != 'undefined';
-	  if (data.correct) {
-		  data.result = recordset;
-	  }
-  }
-  else if (action == 'image') {
-	  data.success = true;
-	  data.correct = typeof recordset[0] != 'undefined';
-	  if (data.correct) {
-			var sp = recordset[0].image.split(',');
-			var img = [];
-			for(i=1; i<sp.length; i++) {
-				if ( sp[i].toLowerCase().indexOf('d') == -1 )
-				img.push(sp[i]);
+exports.categoryAndBrand = function(req, res, data) {
+	if (typeof data.result[0] != 'undefined') {
+		var json = [];
+		var cnt = data.result.length;
+		var category = [];
+		var brand = {};
+		for(i=0; i<cnt; i++) {
+			if (category.indexOf(data.result[i].category) == -1) {
+				var brandArr = [];
+				json.push({ id: data.result[i].category, name: data.result[i].categoryName, url: data.result[i].categoryUrl });
+				//json.push({ id: data.result[i].category, name: data.result[i].categoryName, url: data.result[i].categoryUrl, piority: data.result[i].categoryPriority });
+				category.push(data.result[i].category);
+				brand[data.result[i].category] = [];
 			}
-			data.location = 'https://img.remaxthailand.co.th/500x500/product/'+req.body.sku+'/';
-			data.result = img;
-			data.success = true;
-			delete data.error;
-			res.json(data);
-	  }
-  }
-  else if (action == 'success') {
-	  data.success = true;
-  }
-  else if (action == 'category_by_url') {
-	  data.success = true;
-	  data.correct = typeof recordset[0] != 'undefined';
-	  if (data.correct) {
-		  data.category = recordset[0][0].name;
-		  data.result = recordset[1];
-	  }
-  }
-  else if (action == 'product_info') {
-	  data.success = true;
-	  data.correct = typeof recordset[0] != 'undefined';
-	  if (data.correct) {
-		  //data.category = recordset[0][0].name;
-		  data.result = recordset[0];
-	  }
-  }
-  else if (action == 'product_price') {
-	  data.success = true;
-	  data.correct = typeof recordset[0] != 'undefined';
-	  if (data.correct) {
-		  data.result = recordset[0];
-		  data.percent = recordset[1];
-	  }
-  }
-  else if (action == 'category_and_brand') {
-	  data.success = true;
-	  data.correct = typeof recordset[0] != 'undefined';
-	  if (data.correct) {
-		  var json = [];
-		  var cnt = recordset.length;
-		  var category = [];
-		  var brand = {};
-		  for(i=0; i<cnt; i++) {
-			  if (category.indexOf(recordset[i].groupId) == -1) {
-				  var brandArr = [];
-				  json.push({ id: recordset[i].groupId, name: recordset[i].groupName, url: recordset[i].groupUrl, piority: recordset[i].groupPiority });
-				  category.push(recordset[i].groupId);
-				  brand[recordset[i].groupId] = [];
-			  }
-			  brand[recordset[i].groupId].push( { id: recordset[i].brandId, name: recordset[i].brandName, piority: recordset[i].brandPriority } );
-			  //if (typeof category[recordset[i].groupId != 'undefined')
-		  }
-		  var newJson = [];
-		  for(i=0; i<json.length; i++) {
-			  newJson.push({ id: json[i].id, name: json[i].name, url: json[i].url, piority: json[i].piority, brand: brand[json[i].id]  });
-		  }
-		  data.result = newJson;
-		  delete json;
-		  delete cnt;
-		  delete category;
-		  delete brand;
-		  delete newJson;
-	  }
-  }
+			brand[data.result[i].category].push( { id: data.result[i].brand, name: data.result[i].brandName } );
+			//brand[data.result[i].category].push( { id: data.result[i].brand, name: data.result[i].brandName, piority: data.result[i].brandPriority } );
+			//if (typeof category[data.result[i].category != 'undefined')
+		}
+		var newJson = [];
+		for(i=0; i<json.length; i++) {
+			newJson.push({ id: json[i].id, name: json[i].name, url: json[i].url, brand: brand[json[i].id]  });
+			//newJson.push({ id: json[i].id, name: json[i].name, url: json[i].url, piority: json[i].piority, brand: brand[json[i].id]  });
+		}
+		data.json.result = newJson;
+		delete json;
+		delete cnt;
+		delete category;
+		delete brand;
+		delete newJson;
+	}
 
-  if (data.success) delete data.error;
-  res.json(data);
-}
-
-
-exports.error = function(req, res, action, err) {
-	data.error = err;
-	res.json(data);
-}
+	data.json.return = true;
+	data.json.success = true;
+	data.util.responseJson(req, res, data.json);
+};

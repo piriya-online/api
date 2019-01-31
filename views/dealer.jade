@@ -1,0 +1,144 @@
+extends layout
+
+block content
+
+	#accordion.panel-group(role='tablist', aria-multiselectable='true')
+
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#collapseDealerInfo', aria-expanded='false')
+						strong Dealer Information
+						| &#58; ข้อมูลดีลเลอร์
+			#collapseDealerInfo.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /dealer/info
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Firstname
+									.col-sm-10
+										input.form-control.firstname(type='text', placeholder='Firstname')
+										p.help-block
+											span.font-pre.label.label-default firstname
+											|   ชื่อ
+								.form-group
+									label.col-sm-2.control-label(for='input') Lastname
+									.col-sm-10
+										input.form-control.lastname(type='text', placeholder='Lastname')
+										p.help-block
+											span.font-pre.label.label-default lastname
+											|   นามสกุล
+								.form-group
+									label.col-sm-2.control-label(for='input') Mobile
+									.col-sm-10
+										input.form-control.mobile(type='text', placeholder='Mobile')
+										p.help-block
+											span.font-pre.label.label-default mobile
+											|  Mobile
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#collapseRegisterDealer', aria-expanded='false')
+						strong Register Dealer  
+						| &#58; สมัครตัวแทนจำหน่าย
+			#collapseRegisterDealer.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /dealer/register
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Firstname
+									.col-sm-10
+										input.form-control.firstname(type='text', placeholder='Firstname')
+										p.help-block
+											span.font-pre.label.label-warning firstname
+											|  Firstname
+								.form-group
+									label.col-sm-2.control-label(for='input') Lastname
+									.col-sm-10
+										input.form-control.lastname(type='text', placeholder='Lastname')
+										p.help-block
+											span.font-pre.label.label-warning lastname
+											|  Lastname
+								.form-group
+									label.col-sm-2.control-label(for='input') Nickname
+									.col-sm-10
+										input.form-control.nickname(type='text', placeholder='Nickname')
+										p.help-block
+											span.font-pre.label.label-default nickname
+											|  Nickname
+								.form-group
+									label.col-sm-2.control-label(for='input') Time
+									.col-sm-10
+										input.form-control.time(type='text', placeholder='Time')
+										p.help-block
+											span.font-pre.label.label-warning time
+											|  Time
+								.form-group
+									label.col-sm-2.control-label(for='input') Mobile
+									.col-sm-10
+										input.form-control.mobile(type='text', placeholder='Mobile')
+										p.help-block
+											span.font-pre.label.label-warning mobile
+											|  Mobile
+								.form-group
+									label.col-sm-2.control-label(for='input') Address
+									.col-sm-10
+										input.form-control.address(type='text', placeholder='Address')
+										p.help-block
+											span.font-pre.label.label-warning address
+											|  Address
+								.form-group
+									label.col-sm-2.control-label(for='input') Images
+									.col-sm-10
+										input.form-control.images(type='text', placeholder='Images')
+										p.help-block
+											span.font-pre.label.label-default images
+											|  Images
+								.form-group
+									label.col-sm-2.control-label(for='input') Comment
+									.col-sm-10
+										input.form-control.comment(type='text', placeholder='Comment')
+										p.help-block
+											span.font-pre.label.label-default comment
+											|  Comment
+								.form-group
+									label.col-sm-2.control-label(for='input') Expect
+									.col-sm-10
+										input.form-control.expect(type='text', placeholder='Expect')
+										p.help-block
+											span.font-pre.label.label-default expect
+											|  Expect
+								.form-group
+									label.col-sm-2.control-label(for='input') Profile
+									.col-sm-10
+										input.form-control.profile(type='text', placeholder='Profile')
+										p.help-block
+											span.font-pre.label.label-default profile
+											|  Profile
+								.form-group
+									label.col-sm-2.control-label(for='input') Province
+									.col-sm-10
+										input.form-control.province(type='text', placeholder='Province')
+										p.help-block
+											span.font-pre.label.label-default province
+											|  Province
+								.form-group
+									label.col-sm-2.control-label(for='input') Reason
+									.col-sm-10
+										input.form-control.reason(type='text', placeholder='Reason')
+										p.help-block
+											span.font-pre.label.label-default reason
+											|  Reason
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')

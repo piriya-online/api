@@ -1,0 +1,503 @@
+extends layout
+
+block content
+
+	#accordion.panel-group(role='tablist', aria-multiselectable='true')
+
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#Info', aria-expanded='false')
+						strong Employee Information
+						| &#58; ข้อมูลพนักงาน [POS]
+			#Info.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/Info
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+				.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')                    
+					
+					
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#TypeInfo', aria-expanded='false')
+						strong Employee Information
+						| &#58; ข้อมูลประเภทพนักงาน [POS]
+			#TypeInfo.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/TypeInfo
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+				.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+				
+				
+				
+				
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#MappingInfo', aria-expanded='false')
+						strong Employee Information
+						| &#58; ข้อมูลการผูกสิทธิ์พนักงาน [POS]
+			#MappingInfo.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/MappingInfo
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+				.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+				
+				
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#ScreenInfo', aria-expanded='false')
+						strong Employee Information
+						| &#58; ข้อมูลหน้าจอโปรแกรม [POS]
+			#ScreenInfo.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/ScreenInfo
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+				.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+				
+				
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#PermissionInfo', aria-expanded='false')
+						strong Employee Information
+						| &#58; ข้อมูลหน้าจอโปรแกรมสำหรับกำหนดสิทธิ์ [POS]
+			#PermissionInfo.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/PermissionInfo
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+				.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+				
+				
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#Add', aria-expanded='false')
+						strong Employee Add
+						| &#58; เพิ่มข้อมูลพนักงาน
+			#Add.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/Add
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') Employee ID
+									.col-sm-10
+										input.form-control.employeeId(type='text', placeholder='Employee ID')
+										p.help-block
+											span.font-pre.label.label-warning employeeId
+											|   รหัสพนักงาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Employee Type
+									.col-sm-10
+										input.form-control.employeeType(type='text', placeholder='Employee Type')
+										p.help-block
+											span.font-pre.label.label-default employeeType
+											|  ประเภทพนักงาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Firstname
+									.col-sm-10
+										input.form-control.firstname(type='text', placeholder='Firstname')
+										p.help-block
+											span.font-pre.label.label-default firstname
+											|   ชื่อลพนักงาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Lastname
+									.col-sm-10
+										input.form-control.lastname(type='text', placeholder='Lastname')
+										p.help-block
+											span.font-pre.label.label-default lastname
+											|  นามสกุล
+								.form-group
+									label.col-sm-2.control-label(for='input') Nickname
+									.col-sm-10
+										input.form-control.nickname(type='text', placeholder='Nickname')
+										p.help-block
+											span.font-pre.label.label-default nickname
+											|  ชื่อเล่น
+								.form-group
+									label.col-sm-2.control-label(for='input') Mobile
+									.col-sm-10
+										input.form-control.mobile(type='text', placeholder='Mobile')
+										p.help-block
+											span.font-pre.label.label-default mobile
+											|   เบอร์โทรศัพท์
+								.form-group
+									label.col-sm-2.control-label(for='input') Code
+									.col-sm-10
+										input.form-control.code(type='text', placeholder='Code')
+										p.help-block
+											span.font-pre.label.label-default code
+											|  รหัสเปลี่ยนสำหรับราคาขาย
+								.form-group
+									label.col-sm-2.control-label(for='input')  Username
+									.col-sm-10
+										input.form-control.username(type='text', placeholder='Username')
+										p.help-block
+											span.font-pre.label.label-default username
+											|   ชื่อผู้ใช้
+								.form-group
+									label.col-sm-2.control-label(for='input') Password
+									.col-sm-10
+										input.form-control.password(type='text', placeholder='Password')
+										p.help-block
+											span.font-pre.label.label-default password
+											|  รหัสผ่าน
+								.form-group
+									label.col-sm-2.control-label(for='input') Status
+									.col-sm-10
+										input.form-control.status(type='text', placeholder='Status')
+										p.help-block
+											span.font-pre.label.label-default status
+											|   สถานะ
+								.form-group
+									label.col-sm-2.control-label(for='input') Login Date
+									.col-sm-10
+										input.form-control.logindate(type='text', placeholder='Login Date')
+										p.help-block
+											span.font-pre.label.label-default logindate
+											|   วันที่เข้าใช้งานล่าสุด
+								.form-group
+									label.col-sm-2.control-label(for='input') Login Count
+									.col-sm-10
+										input.form-control.logincount(type='text', placeholder='Login Count')
+										p.help-block
+											span.font-pre.label.label-default logincount
+											|  จำนวนครั้งเข้าใช้งาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Add By
+									.col-sm-10
+										input.form-control.addby(type='text', placeholder='Add By')
+										p.help-block
+											span.font-pre.label.label-default addby
+											|   เพิ่มข้อมูลโดย
+								.form-group
+									label.col-sm-2.control-label(for='input') Update By
+									.col-sm-10
+										input.form-control.updateby(type='text', placeholder='Update By')
+										p.help-block
+											span.font-pre.label.label-default updateby
+											| ปรับปรุงข้อมูลโดย
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+					
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#Delete', aria-expanded='false')
+						strong Employee Delete
+						| &#58;  ลบข้อมูลพนักงาน
+			#Delete.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/Delete
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') Employee ID
+									.col-sm-10
+										input.form-control.employeeId(type='text', placeholder='Employee ID')
+										p.help-block
+											span.font-pre.label.label-warning employeeId
+											|   รหัสพนักงาน
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+					
+					
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#AddType', aria-expanded='false')
+						strong EmployeeType Add 
+						| &#58; เพิ่มข้อมูลประเภทพนักงาน
+			#AddType.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/AddType
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') EmployeeType ID
+									.col-sm-10
+										input.form-control.id(type='text', placeholder='EmployeeType ID')
+										p.help-block
+											span.font-pre.label.label-warning id
+											|   รหัสประเภทพนักงาน
+								.form-group
+									label.col-sm-2.control-label(for='input') EmployeeType Name
+									.col-sm-10
+										input.form-control.name(type='text', placeholder='EmployeeType Name')
+										p.help-block
+											span.font-pre.label.label-default name
+											|   ชื่อประเภทพนักงาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Level
+									.col-sm-10
+										input.form-control.level(type='text', placeholder='Level')
+										p.help-block
+											span.font-pre.label.label-default level
+											|   ลำดับความสำคัญ
+								.form-group
+									label.col-sm-2.control-label(for='input') Active
+									.col-sm-10
+										input.form-control.active(type='text', placeholder='Active')
+										p.help-block
+											span.font-pre.label.label-default active
+											|  สถานะการใช้งาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Add Date
+									.col-sm-10
+										input.form-control.adddate(type='text', placeholder='Add Date')
+										p.help-block
+											span.font-pre.label.label-default adddate
+											|  วันที่เพิ่มข้อมูล
+								.form-group
+									label.col-sm-2.control-label(for='input') Add By
+									.col-sm-10
+										input.form-control.addby(type='text', placeholder='Add By')
+										p.help-block
+											span.font-pre.label.label-default addby
+											|   เพิ่มข้อมูลโดย
+								.form-group
+									label.col-sm-2.control-label(for='input') Update Date
+									.col-sm-10
+										input.form-control.updatedate(type='text', placeholder='Update Date')
+										p.help-block
+											span.font-pre.label.label-default updatedate
+											|  วันที่ปรับปรุงข้อมูล
+								.form-group
+									label.col-sm-2.control-label(for='input')  Update By
+									.col-sm-10
+										input.form-control.updateby(type='text', placeholder='Update By')
+										p.help-block
+											span.font-pre.label.label-default updateby
+											|   ปรับปรุงข้อมูลโดย
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#DeleteType', aria-expanded='false')
+						strong EmployeeType Add 
+						| &#58; ลบข้อมูลประเภทพนักงาน
+			#DeleteType.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/DeleteType
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') EmployeeType ID
+									.col-sm-10
+										input.form-control.id(type='text', placeholder='EmployeeType ID')
+										p.help-block
+											span.font-pre.label.label-warning id
+											|   รหัสประเภทพนักงาน
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+					
+					
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#AddScreen', aria-expanded='false')
+						strong EmployeeType Add 
+						| &#58; เพิ่มข้อมูลพนักงาน
+			#AddScreen.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/AddScreen
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') System
+									.col-sm-10
+										input.form-control.system(type='text', placeholder='System')
+										p.help-block
+											span.font-pre.label.label-warning system
+											|  ระบบ
+								.form-group
+									label.col-sm-2.control-label(for='input') EmployeeType Screen
+									.col-sm-10
+										input.form-control.screen(type='text', placeholder='Screen')
+										p.help-block
+											span.font-pre.label.label-warning screen
+											|   หน้าจอโปรแกรม
+								.form-group
+									label.col-sm-2.control-label(for='input') Permission
+									.col-sm-10
+										input.form-control.permission(type='text', placeholder='Permission')
+										p.help-block
+											span.font-pre.label.label-warning permission
+											|   สิทธิ์พนักงาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Employee Type
+									.col-sm-10
+										input.form-control.employeetype(type='text', placeholder='Employee Type')
+										p.help-block
+											span.font-pre.label.label-warning employeetype
+											|  ประเภทพนักงาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Add Date
+									.col-sm-10
+										input.form-control.adddate(type='text', placeholder='Add Date')
+										p.help-block
+											span.font-pre.label.label-default adddate
+											|  วันที่เพิ่มข้อมูล
+								.form-group
+									label.col-sm-2.control-label(for='input') Add By
+									.col-sm-10
+										input.form-control.addby(type='text', placeholder='Add By')
+										p.help-block
+											span.font-pre.label.label-default addby
+											|   เพิ่มข้อมูลโดย
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 
+					
+					
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#DeleteScreen', aria-expanded='false')
+						strong EmployeeType Add 
+						| &#58; เพิ่มข้อมูลพนักงาน
+			#DeleteScreen.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /employee/DeleteScreen
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') System
+									.col-sm-10
+										input.form-control.system(type='text', placeholder='System')
+										p.help-block
+											span.font-pre.label.label-warning system
+											|  ระบบ
+								.form-group
+									label.col-sm-2.control-label(for='input') EmployeeType Screen
+									.col-sm-10
+										input.form-control.screen(type='text', placeholder='Screen')
+										p.help-block
+											span.font-pre.label.label-warning screen
+											|   หน้าจอโปรแกรม
+								.form-group
+									label.col-sm-2.control-label(for='input') Permission
+									.col-sm-10
+										input.form-control.permission(type='text', placeholder='Permission')
+										p.help-block
+											span.font-pre.label.label-warning permission
+											|   สิทธิ์พนักงาน
+								.form-group
+									label.col-sm-2.control-label(for='input') Employee Type
+									.col-sm-10
+										input.form-control.employeetype(type='text', placeholder='Employee Type')
+										p.help-block
+											span.font-pre.label.label-warning employeetype
+											|  ประเภทพนักงาน
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert') 

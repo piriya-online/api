@@ -1,122 +1,160 @@
-var express = require('express')
-  , routes = require('./routes')
-  , http = require('http')
+var http = require('http')
+	, express = require('express')
+	, routes = require('./routes')
+	, fs = require('fs')
+	, path = require('path')
+	, util = require('./objects/util')
 	, favicon = require('serve-favicon')
 	, logger = require('morgan')
 	, methodOverride = require('method-override')
+	, session = require('express-session')
 	, bodyParser = require('body-parser')
-	, errorHandler = require('errorhandler')
-  , fs = require('fs')
-  , path = require('path');
-
+	, errorHandler = require('errorhandler');
+	//var multer = require('multer');
 global.config = require('./config.js');
 
 var app = express();
-var maxAge = 365 * 24 * 60 * 60 * 1000;
 
 app.set('port', config.port || 9999);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/favicon.ico'));
+app.use(logger('dev'));
 app.use(methodOverride());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ resave: true,
+                  saveUninitialized: true,
+                  secret: config.crypto.password }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: maxAge }));
-
+app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(multer());
+app.use(express.static(path.join(__dirname, 'public')));
 
 if ('development' == app.get('env')) {
 	app.use(errorHandler());
 }
 
 app.get('*', function(req, res) {
+
 	res.header('Access-Control-Allow-Origin', '*');
 
+	data = {};
+	data.screen = 'index';
+	data.systemName = config.systemName;
+	data.title = config.systemName;
+	data.titleDescription = '';
+	data.apiKey = config.apiKey;
+	data.shopIdTest = config.shopIdTest ;
+
+	//var url = req.headers['uri'].split('/');
 	var url = req.url.split('/');
 	url = url.filter(function(n){ return n !== ''; });
 	if ( url.length >= 1 ) {
-		if (url[0] == 'report') {
-			var report = require('./objects/report.js');
-			if (url[1] == 'mail') {
-				report.mail(req, res, url[2]);
-			}
-			else if (url[1] == 'order4customer' || url[1] == 'order4office' || url[1] == 'envelope') {
+		data.screen = url[0];
+		if ( data.screen == 'document' ) {
+			var document = require('./objects/document');
+			document.generate(req, res, data);
+		}
+		else if ( data.screen == 'report' ) {
+			var report = require('./objects/report');
+			if(url[1] == 'shop'){
+				report.shop(req, res, url[2], url[3].replace('.pdf', ''))
+			} else if(url[1] == 'neoinvoice') {
 				report.generate(req, res, url[1], url[2], url[3]);
-			}
-			else if (url[1] == 'dealer') {
-				report.dealer(req, res, url[2], url[3].replace('.pdf', ''));
-			}
-      else if (url[1] == 'aging' || url[1] == 'run_rate') {
-				report.action(req, res, url[1], url[2], url[3], url[4]);
-			}
-			else {
-				report.action(req, res, url[1], url[2]);
+			} else {
+				report.action(req, res, url[1], url[2], url[3]);
 			}
 		}
-		else if (url[0] == 'barcode') {
-			var barcode = require('./objects/barcode.js');
-			barcode.generate(req, res, url[1]);
+		else if ( data.screen == 'barcode' ) {
+			var barcode = require('./objects/barcode');
+			barcode.generate(req, res, url[1]);			
 		}
-		else if (url[0] == 'test') {
-			var test = require('./objects/test.js');
-			test.action(req, res);
+		else if ( data.screen == 'img' ) {
+			var image = require('./objects/image');
+			image.generate(req, res, url);
+		}
+		else if ( data.screen == 'ip' ) {
+			res.writeHead(302, {'Location': 'http://ip-api.com/json/' + url[1]});
+			res.end();
+		}
+		else if ( data.screen == 'myip' ) {
+			var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+			var sp = ip.split(',');
+			res.send(sp[0].trim());
+			res.end();
+		}
+		else if ( data.screen == 'myallip' ) {
+			var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+			res.send(ip);
+			res.end();
 		}
 		else {
-			fs.exists('./views/'+url[0]+'.jade', function (exists) {
+			fs.exists('./views/'+data.screen+'.jade', function (exists) {
 				if (exists) {
-					fs.exists('./public/javascripts/'+url[0]+'.js', function (exists) {
-						routes.index(req, res, url[0], (exists) ? '/javascripts/'+url[0]+'.js' : '' );
-					});
+					data.subUrl = (url.length == 1 ) ? '' : url[1];
+					routes.index(req, res, data);
 				}
 				else {
-					routes.index(req, res, 'index', '');
+					routes.index(req, res, data);
 				}
 			});
 		}
 	}
 	else {
-		routes.index(req, res, 'index', '');
+		routes.index(req, res, data);
 	}
 });
 
 app.post('*', function(req, res) {
 
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header('Access-Control-Allow-Origin', '*');
+	//res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-	global.data = {};
-	data.result = null;
-	data.success = false;
-	data.error = 'No Action';
+	var json = {};
+	json.success = false;
 
-	var url = req.headers['referer'].split('/');
-	if (config.origin.indexOf(url[2]) > -1) {
+	var token = {};
 
-		url = req.url.split('/');
-		url = url.filter(function(n){ return n !== ''; });
-
-		if ( url.length >= 2 ) {
-			var control = url[0];
-			var action = url[1];
-			url[0] = null;
-			url[1] = null;
-			url = url.filter(function(n){ return n !== null; });
-			fs.exists('./objects/'+control+'.js', function (exists) {
-				if (exists) {
-					var object = require('./objects/'+control);
-					object.action(req, res, object, action, url);
-				}
-				else {
-					res.json(data);
-				}
-			});
+	if (typeof req.body.token != 'undefined' && req.body.token != '') {
+		var jwt = require('jsonwebtoken');
+		try {
+			var token = jwt.verify(req.body.token, config.secretKey);
+			req.body.token = token;
+			req.body.apiKey = token.apiKey;
+			delete token;
+		} catch(err) {
+			json.error = 'API0011';
+			json.errorMessage = 'Invalid Parameter token';
+			json.stackTrace = err;
+			res.json(json);
 		}
 	}
+
+	if (typeof req.body.apiKey == 'undefined' || req.body.apiKey == '') {
+		json.error = 'API0001';
+		json.errorMessage = 'Missing Parameter apiKey';
+		res.json(json);
+	}
 	else {
-		data.error = 'Your site do not allow access to this resource';
-		res.json(data);
+
+		var data = {};
+		data.util = util;
+		data.action = 'checkApiKey';
+		data.command = 'EXEC sp_ApiExist \''+req.body.apiKey+'\'';
+		data.object = require('./objects/api');
+
+		if (typeof token.apiKey != 'undefined') data.token = token;
+
+		data.json = {};
+		data.json.success = false;
+		data.json.return = true;
+		data.json.error = 'SYS0001';
+		data.json.errorMessage = 'Unknow Action';
+
+		util.queryMultiple(req, res, data);
 	}
 });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+var server = http.createServer(app);
+server.listen(app.get('port'), function(){
+	console.log('Express server listening on port ' + app.get('port'));
 });

@@ -1,10 +1,11 @@
 {
-  "name"             : "apis",
-  "script"           : "/data/www/production/prodathailand/apis/app.js",
-  "error_file"       : "/data/www/log/prodathailand/apis.error.txt",
-  "out_file"         : "/data/www/log/prodathailand/apis.out.txt",
-  "instances"        : 2,
+  "name"             : "api",
+  "script"           : "/data/www/production/remaxthailand/api/app.js",
+  "error_file"       : "/data/www/log/remaxthailand/api.error.txt",
+  "out_file"         : "/data/www/log/remaxthailand/api.out.txt",
+  "instances"        : 4,
   "watch"            : true,
   "ignore_watch"      : ["[\\/\\\\]\\./", "node_modules", ".svn"],
-  "log_date_format"  : "YYYY-MM-DD HH:mm:ss"
+  "log_date_format"  : "YYYY-MM-DD HH:mm:ss",
+  "max_memory_restart" : "256M"
 }

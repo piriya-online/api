@@ -1,147 +1,177 @@
-var sql = require('mssql');
-var config = require('../config.js');
-
-exports.getUrl = function(req, res, control, action, url) {
-	var http = require( (url.substr(0,5) == 'https') ? 'https' : 'http' );
-
-	http.get(url, function(response) {
-		response.setEncoding('utf8');
-		var recordset = '';
-		response.on('error', function (e) {
-			control.process(req, res, action, e.message);
+//## - - - MS SQL - - - ##//
+exports.query = function(req, res, data){
+	var sql = require('mssql');
+	var connection = new sql.Connection(global.config.mssql, function (err) {
+		var request = new sql.Request(connection);
+		request.query(data.command, function (err, recordset, returnValue) {
+			if (!err){
+				if (typeof recordset != 'undefined' && recordset.length > 0) {
+					data.result = recordset;
+					if ( typeof data.json.returnResult == 'undefined' ) {
+						data.object.process(req, res, data);
+					}
+					else {
+						if ( data.json.returnResult ) {
+							delete data.json.returnResult;
+							data.json.success = true;
+							data.json.return = true;
+							data.json.result = data.result;
+							data.util.responseJson(req, res, data.json);
+						}
+						else {	
+							data.object.process(req, res, data);
+						}
+					}
+				}
+				else {
+					data.json.return = true;
+					data.json.error = 'UTL0001';
+					data.json.errorMessage = 'Data Not found';
+					exports.responseJson(req, res, data.json);
+				}
+			}
+			else {
+				data.json.return = true;
+				data.json.error = 'UTL0002';
+				data.json.errorMessage = err.message;
+				exports.responseJson(req, res, data.json);
+			}
 		});
-		response.on('data', function (chunk) {
-			recordset += chunk;
+	 });
+};
+
+exports.queryMultiple = function(req, res, data){
+	var sql = require('mssql');
+	var connection = new sql.Connection(global.config.mssql, function (err) {
+		var request = new sql.Request(connection);
+		request.multiple = true;
+		request.query(data.command, function (err, recordset, returnValue) {
+			if (!err){
+				if (recordset.length > 0) {
+					data.result = recordset;
+					if ( typeof data.json.returnResult == 'undefined' ) {
+						data.object.process(req, res, data);
+					}
+					else {
+						if ( data.json.returnResult ) {
+							delete data.json.returnResult;
+							data.json.success = true;
+							data.json.return = true;
+							data.json.result = data.result;
+							data.util.responseJson(req, res, data.json);
+						}
+						else {	
+							data.object.process(req, res, data);
+						}
+					}
+				}
+				else {
+					data.json.return = true;
+					data.json.error = 'UTL0001';
+					data.json.errorMessage = 'Data Not found';
+					exports.responseJson(req, res, data.json);
+				}
+			}
+			else {
+				data.json.return = true;
+				data.json.error = 'UTL0003';
+				data.json.errorMessage = err.message;
+				exports.responseJson(req, res, data.json);
+			}
 		});
-		response.on('end', function (chunk) {
-			control.process(req, res, action, recordset);
+	 });
+};
+
+exports.queryMultiple2 = function(req, res, data){
+	var sql = require('mssql');
+	var connection = new sql.Connection(global.config.mssql, function (err) {
+		var request = new sql.Request(connection);
+		request.multiple = true;
+		request.query(data.command, function (err, recordset, returnValue) {
+			if (!err){
+				console.log(recordset);
+			}
+			else {
+				console.log(err);
+			}
 		});
-	});
+	 });
+};
 
-}
+exports.execute = function(req, res, data){
+	var sql = require('mssql');
+	var connection = new sql.Connection(global.config.mssql, function (err) {
+		var request = new sql.Request(connection);
+		request.query(data.command, function (err, recordset, returnValue) {
+			if (!err){
+				data.result = returnValue;
+				if ( typeof data.json.returnResult == 'undefined' ) {
+					data.object.process(req, res, data);
+				}
+				else {
+					if ( data.json.returnResult ) {
+						delete data.json.returnResult;
+						data.json.success = true;
+						data.json.return = true;
+						data.json.result = data.result;
+						data.util.responseJson(req, res, data.json);
+					}
+					else {	
+						data.object.process(req, res, data);
+					}
+				}
+			}
+			else {
+				data.json.return = true;
+				data.json.error = 'UTL0004';
+				data.json.errorMessage = err.message;
+				exports.responseJson(req, res, data.json);
+			}
+		});
+	 });
+};
 
-exports.postUrl = function(req, res, control, action, path, postString) {
-	var http = require( (url.substr(0,5) == 'https') ? 'https' : 'http' );
-
-	var options = {
-		host: config.apiPostUrl,
-		path: path,
-		method: 'POST',
-		headers: {
-			referer: config.refererUrl,
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Content-Length': postString.length
+//## - - - Common Method - - - ##//
+exports.responseJson = function(req, res, json) {
+	if (json.return) {
+		delete json.return;
+		if (json.success) {
+			delete json.error;
+			delete json.errorMessage;
 		}
-	};
-
-	var postReq = http.request(options, function(response) {
-		response.setEncoding('utf8');
-		var recordset = '';
-		response.on('data', function (chunk) {
-			recordset += chunk;
-		});
-		response.on('end', function (chunk) {
-			control.process(req, res, action, recordset);
-		});
-	});
-
-	postReq.write(postString);
-	postReq.end();
-
-}
-
-exports.query = function(req, res, control, action, command){
-	var connection = new sql.Connection(config.mssql, function (err) {
-		var request = new sql.Request(connection);
-		//request.multiple = true;
-		request.query(command, function (err, recordset, returnValue) {
-			if (!err){
-				control.process(req, res, action, recordset);
-			}else{
-			   control.error(req, res, action, err.message);
-			}
-		});
-	 });
+		try { 
+			res.json(json); 
+		} catch (ex) {
+		}		
+	}
 };
 
-exports.queryNull = function(command){
-	var connection = new sql.Connection(config.mssql, function (err) {
-		var request = new sql.Request(connection);
-		request.query(command, function (err, recordset, returnValue) {
-		});
-	 });
+exports.responseError = function(req, res, error) {
+	var json = {};
+	json.success = false;
+	json.error = 'ERR0001';
+	json.errorMessage = error.message;
+	json.errorStack = error.stack;
+	try { 
+		res.json(json); 
+	} catch (ex) {
+	}		
 };
 
-exports.queryMultiple = function(req, res, control, action, command){
-	var connection = new sql.Connection(config.mssql, function (err) {
-		var request = new sql.Request(connection);
-		request.multiple = true;
-		request.query(command, function (err, recordset, returnValue) {
-			if (!err){
-				control.process(req, res, action, recordset);
-			}else{
-			   control.error(req, res, action, err.message);
-			}
-		});
-	 });
+exports.isNumeric = function(input) {
+    return (input - 0) == input && (''+input).trim().length > 0;
 };
 
-exports.batch = function(req, res, control, action, command){
-	var connection = new sql.Connection(config.mssql, function (err) {
-		var request = new sql.Request(connection);
-		//request.multiple = true;
-		request.batch(command, function (err, recordset, returnValue) {
-			if (!err){
-				control.process(req, res, action, recordset);
-			}else{
-			   control.error(req, res, action, err.message);
-			}
-		});
-	 });
-};
 
-exports.batchJob = function(req, res, command){
-	var connection = new sql.Connection(config.mssql, function (err) {
-		var request = new sql.Request(connection);
-		request.multiple = true;
-		request.batch(command, function (err, recordset, returnValue) {
-			if (!err){
-				data.success = true;
-				delete data.error;
-				res.json(data);
-			}else{
-				data.error = err.message;
-				res.json(data);
-			}
-		});
-	 });
-};
 
 exports.encrypt = function(text, password) {
 	var crypto = require('crypto');
 	var cipher = crypto.createCipher(config.crypto.algorithm, password);
 	return cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
-}
+};
 
 exports.decrypt = function(encrypted, password) {
 	var crypto = require('crypto');
 	var decipher = crypto.createDecipher(config.crypto.algorithm, password);
 	return decipher.update(encrypted, 'hex', 'utf8') + decipher.final('utf8');
-}
-
-exports.getImage = function(req, res) {
-	var azure = require('azure-storage');
-	var blobService = azure.createBlobService();
-	var stream;
-	blobService.getBlobToStream('img', '2.jpg', res, function(error){
-		if (error) {
-			//throw error;
-			res.end();
-		}
-		else {
-			res.writeHead(200, {'Content-Type': 'image/png'});
-            res.end();
-		}
-		//res.json(data);
-	});
-}
+};

@@ -1,0 +1,110 @@
+extends layout
+
+block content
+
+	#accordion.panel-group(role='tablist', aria-multiselectable='true')
+
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#returnInfo', aria-expanded='false')
+						strong return Information
+						| &#58; ข้อมูลการคืนสินค้า
+			#returnInfo.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /return/returnInfo
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   Shop ID
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')             
+						
+				
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#returnAdd', aria-expanded='false')
+						strong return Add
+						| &#58; เพิ่มข้อมูลการคืนสินค้า
+			#returnAdd.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /return/returnAdd
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   Shop ID
+								.form-group
+									label.col-sm-2.control-label(for='input') ReturnNo
+									.col-sm-10
+										input.form-control.returnNo(type='text', placeholder='ReturnNo')
+										p.help-block
+											span.font-pre.label.label-warning returnNo
+											|   ReturnNo
+								.form-group
+									label.col-sm-2.control-label(for='input') Quantity
+									.col-sm-10
+										input.form-control.quantity(type='text', placeholder='Quantity')
+										p.help-block
+											span.font-pre.label.label-warning quantity
+											|   Quantity
+								.form-group
+									label.col-sm-2.control-label(for='input') Barcode
+									.col-sm-10
+										input.form-control.barcode(type='text', placeholder='Barcode')
+										p.help-block
+											span.font-pre.label.label-warning barcode
+											|   Barcode
+								.form-group
+									label.col-sm-2.control-label(for='input') SellNo
+									.col-sm-10
+										input.form-control.sellNo(type='text', placeholder='SellNo')
+										p.help-block
+											span.font-pre.label.label-warning sellNo
+											|   SellNo
+								.form-group
+									label.col-sm-2.control-label(for='input') Product
+									.col-sm-10
+										input.form-control.product(type='text', placeholder='Product')
+										p.help-block
+											span.font-pre.label.label-warning product
+											|   Product
+								.form-group
+									label.col-sm-2.control-label(for='input') ReturnDate
+									.col-sm-10
+										input.form-control.returnDate(type='text', placeholder='ReturnDate')
+										p.help-block
+											span.font-pre.label.label-warning returnDate
+											|   ReturnDate
+								.form-group
+									label.col-sm-2.control-label(for='input') ReturnBy
+									.col-sm-10
+										input.form-control.returnBy(type='text', placeholder='ReturnBy')
+										p.help-block
+											span.font-pre.label.label-default returnBy
+											|   ReturnBy 
+								.form-group
+									label.col-sm-2.control-label(for='input') SalePrice
+									.col-sm-10
+										input.form-control.salePrice(type='text', placeholder='SalePrice')
+										p.help-block
+											span.font-pre.label.label-warning salePrice
+											|   SalePrice
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')     

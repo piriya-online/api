@@ -1,359 +1,369 @@
 extends layout
 
 block content
-	div.page-header
-		h2 #{title} 
-			small : คำสั่งซื้อสินค้า
 
-	div#accordion.panel-group(role='tablist', aria-multiselectable='true')
+	#accordion.panel-group(role='tablist', aria-multiselectable='true')
 
-		div.panel.panel-default
-			div#headingOne.panel-heading(role='tab')
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
 				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#collapseCartUpdate', aria-expanded='false')
-						strong Add Product to Shopping Cart 
-						&#58; เพิ่มสินค้าลงในรถเข็น
-			div#collapseCartUpdate.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/cart/update
-					div.panel.panel-default
-						div.panel-body
+					a(data-toggle='collapse', data-parent='#accordion', href='#info', aria-expanded='false')
+						strong Order Information  
+						| &#58; ข้อมูลสินค้าที่สั่งซื้อ
+			#info.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/info/memberKey
+					.panel.panel-default
+						.panel-body
 							form.form-horizontal
-								div.form-group
-									label.col-sm-2.control-label(for='input') Authentication Key
-									div.col-sm-10
-										input.form-control.authKey(type='text', placeholder='Authentication Key')
-										p.help-block 
-											span.label.label-warning authKey
-											|   รหัส Authentication
-								div.form-group
-									label.col-sm-2.control-label(for='input') Product Code
-									div.col-sm-10
-										input.form-control.productCode(type='text', placeholder='Product Code')
-										p.help-block 
-											span.label.label-warning productCode
-											|   รหัสสินค้า
-								div.form-group
-									label.col-sm-2.control-label(for='input') Quantity
-									div.col-sm-10
-										input.form-control.qty(type='text', placeholder='Quantity')
-										p.help-block 
-											span.label.label-warning qty
-											|   จำนวน
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
-
-
-		div.panel.panel-default
-			div#headingOne.panel-heading(role='tab')
-				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#collapseCartDetail', aria-expanded='false')
-						strong Shopping Cart Summary 
-						&#58; รายละเอียดข้อมูลสินค้าในรถเข็น
-			div#collapseCartDetail.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/cart/detail
-					div.panel.panel-default
-						div.panel-body
-							form.form-horizontal
-								div.form-group
-									label.col-sm-2.control-label(for='input') Authentication Key
-									div.col-sm-10
-										input.form-control.authKey(type='text', placeholder='Authentication Key')
-										p.help-block 
-											span.label.label-warning authKey
-											|   รหัส Authentication
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
-
-
-		div.panel.panel-default
-			div#headingOne.panel-heading(role='tab')
-				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#collapseCartSummary', aria-expanded='false')
-						strong Shopping Cart Summary 
-						&#58; สรุปข้อมูลสินค้าในรถเข็น
-			div#collapseCartSummary.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/cart/summary
-					div.panel.panel-default
-						div.panel-body
-							form.form-horizontal
-								div.form-group
-									label.col-sm-2.control-label(for='input') Authentication Key
-									div.col-sm-10
-										input.form-control.authKey(type='text', placeholder='Authentication Key')
-										p.help-block 
-											span.label.label-warning authKey
-											|   รหัส Authentication
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
-
-
-		div.panel.panel-default
-			div#headingOne.panel-heading(role='tab')
-				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#collapseOrderUpdate', aria-expanded='false')
-						strong Update Shopping Cart 
-						&#58; แก้ไขจำนวนสินค้าลงในรถเข็น
-			div#collapseOrderUpdate.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/update
-					div.panel.panel-default
-						div.panel-body
-							form.form-horizontal
-								div.form-group
-									label.col-sm-2.control-label(for='input') Authentication Key
-									div.col-sm-10
-										input.form-control.authKey(type='text', placeholder='Authentication Key')
-										p.help-block 
-											span.label.label-warning authKey
-											|   รหัส Authentication
-								div.form-group
-									label.col-sm-2.control-label(for='input') Product Code
-									div.col-sm-10
-										input.form-control.productCode(type='text', placeholder='Product Code')
-										p.help-block 
-											span.label.label-warning productCode
-											|   รหัสสินค้า
-								div.form-group
-									label.col-sm-2.control-label(for='input') Quantity
-									div.col-sm-10
-										input.form-control.qty(type='text', placeholder='Quantity')
-										p.help-block 
-											span.label.label-warning qty
-											|   จำนวน
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
-
-
-					
-		div.panel.panel-default
-			div.panel-heading(role='tab')
-				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#collapse1', aria-expanded='false')
-						strong Confirm Order 
-						&#58;  ยืนยันคำสั่งซื้อ
-
-			div#collapse1.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/confirm
-					div.panel.panel-default
-						div.panel-body
-							form.form-horizontal
-								div.form-group
-									label.col-sm-2.control-label(for='input') Authentication Key
-									div.col-sm-10
-										input.form-control.authKey(type='text', placeholder='Authentication Key')
-										p.help-block 
-											span.label.label-warning authKey
-											|   รหัส Authentication
-								div.form-group
-									label.col-sm-2.control-label(for='input') Coupon Code
-									div.col-sm-10
-										input.form-control.coupon(type='text', placeholder='Coupon Code')
-										p.help-block 
-											span.label.label-default coupon
-											|   รหัสคูปอง
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
-
-
-		div.panel.panel-default
-			div.panel-heading(role='tab')
-				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#collapse1', aria-expanded='false')
-						strong Send Email for Confirm Order 
-						&#58; ส่ง Email ยืนยันคำสั่งซื้อ
-
-			div#collapse1.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/sendmail/confirm
-					div.panel.panel-default
-						div.panel-body
-							form.form-horizontal
-								div.form-group
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') Access Type
+									.col-sm-10
+										input.form-control.type(type='text', placeholder='Access Type')
+										p.help-block
+											span.font-pre.label.label-default type
+											|   วิธีการเข้าถึงข้อมูล (M = Member Key, A = Access Key) Default = M
+								.form-group
+									label.col-sm-2.control-label(for='input') Key
+									.col-sm-10
+										input.form-control.key(type='text', placeholder='Key')
+										p.help-block
+											span.font-pre.label.label-warning key
+											|   Key ข้อมูล MemberKey หรือ AccessKey
+								.form-group
 									label.col-sm-2.control-label(for='input') Order Number
-									div.col-sm-10
+									.col-sm-10
 										input.form-control.orderNo(type='text', placeholder='Order Number')
-										p.help-block 
-											span.label.label-warning orderNo
-											&nbsp;หมายเลขคำสั่งซื้อ
-								div.form-group
-									label.col-sm-2.control-label(for='input') Product Items
-									div.col-sm-10
-										input.form-control.items(type='text', placeholder='Product Items')
-										p.help-block 
-											span.label.label-warning items
-											&nbsp;จำนวนรายการ
-								div.form-group
-									label.col-sm-2.control-label(for='input') Product Quantity
-									div.col-sm-10
-										input.form-control.qty(type='text', placeholder='Product Quantity')
-										p.help-block 
-											span.label.label-warning qty
-											&nbsp;จำนวนชิ้น
-								div.form-group
-									label.col-sm-2.control-label(for='input') Total Price
-									div.col-sm-10
-										input.form-control.price(type='text', placeholder='Total Price')
-										p.help-block 
-											span.label.label-warning price
-											&nbsp;ราคา
-								div.form-group
-									label.col-sm-2.control-label(for='input') Customer Name
-									div.col-sm-10
-										input.form-control.name(type='text', placeholder='Customer Name')
-										p.help-block 
-											span.label.label-warning name
-											&nbsp;ชื่อลูกค้า
-								div.form-group
-									label.col-sm-2.control-label(for='input') Customer Nickname
-									div.col-sm-10
-										input.form-control.nickname(type='text', placeholder='Customer Nickname')
-										p.help-block 
-											span.label.label-warning nickname
-											&nbsp;ชื่อเล่นลูกค้า
-								div.form-group
-									label.col-sm-2.control-label(for='input') Shop Name
-									div.col-sm-10
-										input.form-control.shopName(type='text', placeholder='Shop Name')
-										p.help-block 
-											span.label.label-warning shopName
-											&nbsp;ชื่อร้าน
-								div.form-group
-									label.col-sm-2.control-label(for='input') Telephone Number
-									div.col-sm-10
-										input.form-control.telephoneNo(type='text', placeholder='Telephone Number')
-										p.help-block 
-											span.label.label-warning telephoneNo
-											&nbsp;เบอร์โทรศัพท์
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
+										p.help-block
+											span.font-pre.label.label-warning orderNo
+											|   หมายเลขคำสั่งซื้อ
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
 
-
-					
-		div.panel.panel-default
-			div.panel-heading(role='tab')
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
 				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#collapseCouponInfo', aria-expanded='false')
-						strong Coupon Information
-						&#58;  ตรวจสอบข้อมูลคูปองส่วนลด
-
-			div#collapseCouponInfo.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/coupon/info
-					div.panel.panel-default
-						div.panel-body
+					a(data-toggle='collapse', data-parent='#accordion', href='#history', aria-expanded='false')
+						strong Order History  
+						| &#58; ข้อมูลประวัติการสั่งซื้อ
+			#history.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/history
+					.panel.panel-default
+						.panel-body
 							form.form-horizontal
-								div.form-group
-									label.col-sm-2.control-label(for='input') Authentication Key
-									div.col-sm-10
-										input.form-control.authKey(type='text', placeholder='Authentication Key')
-										p.help-block 
-											span.label.label-warning authKey
-											|   รหัส Authentication
-								div.form-group
-									label.col-sm-2.control-label(for='input') Coupon Code
-									div.col-sm-10
-										input.form-control.couponCode(type='text', placeholder='Coupon Code')
-										p.help-block 
-											span.label.label-warning couponCode
-											|   รหัสคูปอง
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
-
-
+								.form-group
+									label.col-sm-2.control-label(for='input') Shop ID
+									.col-sm-10
+										input.form-control.shop(type='text', placeholder='Shop ID', value="#{data.shopIdTest}")
+										p.help-block
+											span.font-pre.label.label-warning shop
+											|   รหัสร้านค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   memberKey
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
 					
-		div.panel.panel-default
-			div.panel-heading(role='tab')
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
 				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#collapseOrderSummaryByMonth', aria-expanded='false')
-						strong Order Summary by Month
-						&#58;  รายการสั่งซื้อรายเดือน
-
-			div#collapseOrderSummaryByMonth.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/summary/month
-					div.panel.panel-default
-						div.panel-body
+					a(data-toggle='collapse', data-parent='#accordion', href='#cancel', aria-expanded='false')
+						strong Order Cancel  
+						| &#58; ยกเลิกการสั่งซื้อ
+			#cancel.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/cancel
+					.panel.panel-default
+						.panel-body
 							form.form-horizontal
-								div.form-group
-									label.col-sm-2.control-label(for='input') Authentication Key 
-									div.col-sm-10
-										input.form-control.authKey(type='text', placeholder='Authentication Key')
-										p.help-block 
-											span.label.label-warning authKey
-											|   รหัส Authentication 
-								div.form-group
-									label.col-sm-2.control-label(for='input') Year 
-									div.col-sm-10
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   memberKey
+								.form-group
+									label.col-sm-2.control-label(for='input') Order No
+									.col-sm-10
+										input.form-control.orderNo(type='text', placeholder='Order No')
+										p.help-block
+											span.font-pre.label.label-warning orderNo
+											|   เลขที่คำสั่งซื้อ 
+								.form-group
+									label.col-sm-2.control-label(for='input') Remark
+									.col-sm-10
+										input.form-control.remark(type='text', placeholder='Remark')
+										p.help-block
+											span.font-pre.label.label-default remark
+											|   หมายเหตุ
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#canceledInfo', aria-expanded='false')
+						strong Order Cancel Info
+						| &#58; ข้อมูลการยกเลิกการสั่งซื้อ
+			#canceledInfo.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/canceledInfo
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   memberKey
+								.form-group
+									label.col-sm-2.control-label(for='input') Year
+									.col-sm-10
 										input.form-control.year(type='text', placeholder='Year')
-										p.help-block 
-											span.label.label-warning year
-											|   ปี (ค.ศ.) 
-								div.form-group
-									label.col-sm-2.control-label(for='input') Month 
-									div.col-sm-10
+										p.help-block
+											span.font-pre.label.label-warning year
+											| ปี 
+								.form-group
+									label.col-sm-2.control-label(for='input') Month
+									.col-sm-10
 										input.form-control.month(type='text', placeholder='Month')
-										p.help-block 
-											span.label.label-warning month
-											|   เดือน 
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
-
-
-					
-		div.panel.panel-default
-			div.panel-heading(role='tab')
+										p.help-block
+											span.font-pre.label.label-warning month
+											| เดือน
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
 				h4.panel-title
-					a(data-toggle='collapse', data-parent='#accordion', href='#trackingUpdate', aria-expanded='false')
-						strong Update Shipping Tracking Number     
-						&#58;  จัดการข้อมูลหมายเลขสถานะการขนส่ง
-			#trackingUpdate.panel-collapse.collapse(role='tabpanel')
-				div.panel-body
-					pre URL : /order/tracking/update
-					div.panel.panel-default
-						div.panel-body
+					a(data-toggle='collapse', data-parent='#accordion', href='#list', aria-expanded='false')
+						strong Order List
+			#list.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/list
+					.panel.panel-default
+						.panel-body
 							form.form-horizontal
-								div.form-group
-									label.col-sm-2.control-label(for='input') Order Number
-									div.col-sm-10
-										input.form-control.orderNo(type='text', placeholder='Order Number')
-										p.help-block 
-											span.label.label-warning orderNo
-											|   หมายเลขคำสั่งซื้อ 
-								div.form-group
-									label.col-sm-2.control-label(for='input') Shipping Type 
-									div.col-sm-10
-										input.form-control.type(type='text', placeholder='Shipping Type ')
-										p.help-block 
-											span.label.label-warning type
-											|   ประเภทการขนส่ง
-								div.form-group
-									label.col-sm-2.control-label(for='input') Tracking Number 
-									div.col-sm-10
-										input.form-control.trackingNo(type='text', placeholder='Tracking Number')
-										p.help-block 
-											span.label.label-warning trackingNo
-											|   หมายเลขพัสดุ 
-								div.form-group.margin-bottom-0
-									div.col-sm-offset-2.col-sm-10
-										div.btn.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
-					div.result.hidden.alert.alert-info.margin-top-10.margin-bottom-0.font-pre(role='alert')
+								.form-group
+									label.col-sm-2.control-label(for='input') Order No
+									.col-sm-10
+										input.form-control.orderNo(type='text', placeholder='Order No')
+										p.help-block
+											span.font-pre.label.label-warning orderNo
+											| orderNo
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#listassign', aria-expanded='false')
+						strong Order List Assign
+			#listassign.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/list/assign
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Order No
+									.col-sm-10
+										input.form-control.orderNo(type='text', placeholder='Order No')
+										p.help-block
+											span.font-pre.label.label-warning orderNo
+											| orderNo
+								.form-group
+									label.col-sm-2.control-label(for='input') Employee Name
+									.col-sm-10
+										input.form-control.employee(type='text', placeholder='Employee Name')
+										p.help-block
+											span.font-pre.label.label-warning employee
+											| employee
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#listupdateQty', aria-expanded='false')
+						strong Order List Update Qty
+			#listupdateQty.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/list/updateQty
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Order No
+									.col-sm-10
+										input.form-control.orderNo(type='text', placeholder='Order No')
+										p.help-block
+											span.font-pre.label.label-warning orderNo
+											| orderNo
+								.form-group
+									label.col-sm-2.control-label(for='input') Product ID
+									.col-sm-10
+										input.form-control.product(type='text', placeholder='Product ID')
+										p.help-block
+											span.font-pre.label.label-warning product
+											| Product ID
+								.form-group
+									label.col-sm-2.control-label(for='input') Qty
+									.col-sm-10
+										input.form-control.qty(type='text', placeholder='Qty')
+										p.help-block
+											span.font-pre.label.label-warning qty
+											| Qty
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#listconfirm', aria-expanded='false')
+						strong Order List Confirm
+			#listconfirm.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/list/confirm
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Order No
+									.col-sm-10
+										input.form-control.orderNo(type='text', placeholder='Order No')
+										p.help-block
+											span.font-pre.label.label-warning orderNo
+											| orderNo
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#listreport', aria-expanded='false')
+						strong Order List Report
+			#listreport.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/list/report
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Status
+									.col-sm-10
+										input.form-control.status(type='text', placeholder='Status')
+										p.help-block
+											span.font-pre.label.label-warning status
+											| Status
+								.form-group
+									label.col-sm-2.control-label(for='input') Date
+									.col-sm-10
+										input.form-control.date(type='text', placeholder='Date')
+										p.help-block
+											span.font-pre.label.label-warning date
+											| Date
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#orderChecker', aria-expanded='false')
+						strong Order Check Lost
+			#orderChecker.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/orderChecker
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Order No
+									.col-sm-10
+										input.form-control.orderNo(type='text', placeholder='Order No')
+										p.help-block
+											span.font-pre.label.label-warning orderNo
+											| orderNo
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+					
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#orderHeader', aria-expanded='false')
+						strong OrderHeader Update
+			#orderHeader.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/orderHeader
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Order No
+									.col-sm-10
+										input.form-control.orderNo(type='text', placeholder='Order No')
+										p.help-block
+											span.font-pre.label.label-warning orderNo
+											| Order No
+								.form-group
+									label.col-sm-2.control-label(for='input') Comment
+									.col-sm-10
+										input.form-control.comment(type='text', placeholder='Comment')
+										p.help-block
+											span.font-pre.label.label-default comment
+											| Comment
+								.form-group
+									label.col-sm-2.control-label(for='input') Sale
+									.col-sm-10
+										input.form-control.sale(type='text', placeholder='Sale')
+										p.help-block
+											span.font-pre.label.label-warning sale
+											| Sale
+								.form-group
+									label.col-sm-2.control-label(for='input') Shipping
+									.col-sm-10
+										input.form-control.shipping(type='text', placeholder='Shipping')
+										p.help-block
+											span.font-pre.label.label-warning shipping
+											| Shipping
+								.form-group
+									label.col-sm-2.control-label(for='input') Payment
+									.col-sm-10
+										input.form-control.payment(type='text', placeholder='Payment')
+										p.help-block
+											span.font-pre.label.label-warning payment
+											| Payment
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')

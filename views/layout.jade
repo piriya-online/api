@@ -1,53 +1,298 @@
 doctype html
 html
 	head
-		title #{title} : 24FIN API
-		meta(charset='utf-8')
-		meta(http-equiv='X-UA-Compatible', content='IE=edge')
-		meta(name='viewport', content='width=device-width, initial-scale=1')
-		link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
-		link(rel='stylesheet', href='/stylesheets/jquery.jsonview.css')
+		title= data.title
+		meta(content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', name='viewport')
+		link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css')
+		link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+		link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/ionicons/4.4.6/css/ionicons.min.css')
+		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/2.3.0/css/AdminLTE.min.css')
+		link(rel='stylesheet', href='//src.remaxthailand.co.th/libs/adminlte/2.3.0/css/skins/skin-blue.min.css')
+		link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
-	body
-		input#api_url(type='hidden', value=config.url)
 
-		nav.navbar.navbar-default.navbar-fixed-top
-			div.container
-				div.navbar-header
-					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
-						span.sr-only Toggle navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-					a.navbar-brand(href='#') 24FIN API
-				div#navbar.navbar-collapse.collapse
-					ul.nav.navbar-nav
+	body.skin-blue.sidebar-mini
+
+		input#apiKey(type="hidden", value= data.apiKey)
+
+		.wrapper
+			header.main-header
+				a.logo(href="index2.html")
+					span.logo-mini
+						b  API
+					span.logo-lg
+						| #{data.systemName}
+				
+				nav.navbar.navbar-static-top(role="navigation")
+					a.sidebar-toggle(href="#", data-toggle="offcanvas", role="button")
+						span.sr-only  Toggle navigation
+
+					div.navbar-custom-menu
+						ul.nav.navbar-nav
+
+							li.dropdown.user.user-menu
+								a.dropdown-toggle(href="#", data-toggle="dropdown")
+									img.user-image(src="//src.remaxthailand.co.th/libs/adminlte/2.3.0/img/avatar5.png", alt="User Image")
+									span.hidden-xs  Developer Name
+								ul.dropdown-menu
+									li.user-header
+										img.img-circle(src="//src.remaxthailand.co.th/libs/adminlte/2.3.0/img/avatar5.png", alt="User Image")
+										p
+											| Developer Name - Web Developer
+											small Member since Nov. 2012
+									li.user-body
+										div.col-xs-4.text-center
+											a(href="#") Followers
+										div.col-xs-4.text-center
+											a(href="#") Sales
+										div.col-xs-4.text-center
+											a(href="#") Friends
+									li.user-footer
+										div.pull-left
+											a.btn.btn-default.btn-flat(href="#") Profile
+										div.pull-right
+											a.btn.btn-default.btn-flat(href="#") Sign out
+
+			aside.main-sidebar
+				section.sidebar
+					div.user-panel
+						div.pull-left.image
+							img.img-circle(src="//src.remaxthailand.co.th/libs/adminlte/2.3.0/img/avatar5.png", alt="User Image")
+						div.pull-left.info
+							p
+								| Developer Name
+							a(href="#")
+								i.fa.fa-circle.text-success
+								| Online
+
+					form.sidebar-form(action="#", method="get")
+						div.input-group
+							input.form-control(type="text", name="q", placeholder="Search...")
+							span.input-group-btn
+								button.btn.btn-flat(type='submit', name='search')
+									i.fa.fa-search
+
+					ul.sidebar-menu
+						li.header  API
+						li(class=(data.screen === 'member' || data.screen === 'dealer' || data.screen === 'teamwork' || data.screen === 'customer'|| data.screen === 'employee' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'member' || data.screen === 'dealer' || data.screen === 'teamwork' || data.screen === 'customer'|| data.screen === 'employee' ? 'fa fa-user text-aqua' : 'fa fa-user'))
+								span  Member
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'member' ? 'active' : ''))
+									a(href="./member")
+										i(class=(data.screen === 'member' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Member
+								li(class=(data.screen === 'dealer' ? 'active' : ''))
+									a(href="./dealer")
+										i(class=(data.screen === 'dealer' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Dealer
+								li(class=(data.screen === 'teamwork' ? 'active' : ''))
+									a(href="./teamwork")
+										i(class=(data.screen === 'teamwork' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Teamwork
+								li(class=(data.screen === 'customer' ? 'active' : ''))
+									a(href="./customer")
+										i(class=(data.screen === 'customer' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Customer
+								li(class=(data.screen === 'employee' ? 'active' : ''))
+									a(href="./employee")
+										i(class=(data.screen === 'employee' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Employee
+						
+						li(class=(data.screen === 'product' || data.screen === 'category' || data.screen === 'brand' || data.screen === 'warranty' || data.screen === 'claim' || data.screen === 'properties' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'product' || data.screen === 'category' || data.screen === 'brand' || data.screen === 'warranty' || data.screen === 'claim' || data.screen === 'properties' || data.screen === 'catalog' ? 'fa fa-cubes text-aqua' : 'fa fa-cubes'))
+								span  Product
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'product' ? 'active' : ''))
+									a(href="./product")
+										i(class=(data.screen === 'product' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Product
+								li(class=(data.screen === 'category' ? 'active' : ''))
+									a(href="./category")
+										i(class=(data.screen === 'category' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Category
+								li(class=(data.screen === 'brand' ? 'active' : ''))
+									a(href="./brand")
+										i(class=(data.screen === 'brand' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Brand
+								li(class=(data.screen === 'properties' ? 'active' : ''))
+									a(href="./properties")
+										i(class=(data.screen === 'properties' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Properties
+								li(class=(data.screen === 'warranty' ? 'active' : ''))
+									a(href="./warranty")
+										i(class=(data.screen === 'warranty' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Warranty
+								li(class=(data.screen === 'claim' ? 'active' : ''))
+									a(href="./claim")
+										i(class=(data.screen === 'claim' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Claim
+								li(class=(data.screen === 'sale' ? 'active' : ''))
+									a(href="./sale")
+										i(class=(data.screen === 'sale' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Sale
+								li(class=(data.screen === 'return' ? 'active' : ''))
+									a(href="./return")
+										i(class=(data.screen === 'return' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Return
+								li(class=(data.screen === 'catalog' ? 'active' : ''))
+									a(href="./catalog")
+										i(class=(data.screen === 'catalog' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Catalog
+										
+						li(class=(data.screen === 'cart' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'cart' || data.screen === 'order' ? 'fa fa-shopping-cart text-aqua' : 'fa fa-shopping-cart'))
+								span  Order
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'cart' ? 'active' : ''))
+									a(href="./cart")
+										i(class=(data.screen === 'cart' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Cart
+								li(class=(data.screen === 'order' ? 'active' : ''))
+									a(href="./order")
+										i(class=(data.screen === 'order' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Order
+						
+						
+						li(class=(data.screen === 'account' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'account' ? 'fa fa-bitcoin text-aqua' : 'fa fa-bitcoin'))
+								span  Account
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'account' ? 'active' : ''))
+									a(href="./account")
+										i(class=(data.screen === 'account' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Account		
+
+						
+						li(class=(data.screen === 'warehouse-queue' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'warehouse-queue' ? 'fa fa-server text-aqua' : 'fa fa-server'))
+								span  Warehouse
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'warehouse-queue' ? 'active' : ''))
+									a(href="./warehouse-queue")
+										i(class=(data.screen === 'warehouse-queue' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Queue
+
+						li(class=(data.screen === 'shipping' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'shipping' ? 'fa fa-truck text-aqua' : 'fa fa-truck'))
+								span  Shipping
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'shipping' ? 'active' : ''))
+									a(href="./shipping")
+										i(class=(data.screen === 'shipping' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Shipping
+
+						li(class=(data.screen === 'shop' || data.screen === 'shop-config' || data.screen === 'shop-application' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'shop' || data.screen === 'shop-config' ? 'fa fa-home text-aqua' : 'fa fa-home'))
+								span  Shop
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'shop' ? 'active' : ''))
+									a(href="./shop")
+										i(class=(data.screen === 'shop' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Shop
+
+								li(class=(data.screen === 'shop-config' ? 'active' : ''))
+									a(href="./shop-config")
+										i(class=(data.screen === 'shop-config' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Configuration
+
+								li(class=(data.screen === 'shop-application' ? 'active' : ''))
+									a(href="./shop-application")
+										i(class=(data.screen === 'shop-application' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Application
+
+						li(class=(data.screen === 'province' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'province' ? 'fa fa-database text-aqua' : 'fa fa-database'))
+								span  Master Data
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'province' ? 'active' : ''))
+									a(href="./province")
+										i(class=(data.screen === 'province' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Province
+
+						li(class=(data.screen === 'security' || data.screen === 'webclient' || data.screen === 'api' || data.screen === 'repository' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'security' || data.screen === 'webclient' || data.screen === 'api' ? 'fa fa-slack text-aqua' : 'fa fa-slack'))
+								span  Utilities
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'security' ? 'active' : ''))
+									a(href="./security")
+										i(class=(data.screen === 'security' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Security
+								li(class=(data.screen === 'webclient' ? 'active' : ''))
+									a(href="./webclient")
+										i(class=(data.screen === 'webclient' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Web Client
+								li(class=(data.screen === 'api' ? 'active' : ''))
+									a(href="./api")
+										i(class=(data.screen === 'api' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  API
+								li(class=(data.screen === 'repository' ? 'active' : ''))
+									a(href="./repository")
+										i(class=(data.screen === 'repository' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Source Control
+
+						li(class=(data.screen === 'bank-transaction' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'bank-transaction' ? 'fa fa-bitcoin text-aqua' : 'fa fa-bitcoin'))
+								span  Wallet
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'bank-transaction' ? 'active' : ''))
+									a(href="./bank-transaction")
+										i(class=(data.screen === 'bank-transaction' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Bank Transaction
+						li(class=(data.screen === 'register' ? 'treeview active' : 'treeview'))
+							a(href="#")
+								i(class=(data.screen === 'register' ? 'fa fa-pencil-square-o text-aqua' : 'fa fa-pencil-square-o'))
+								span  Register
+								i.fa.fa-angle-left.pull-right
+							ul.treeview-menu
+								li(class=(data.screen === 'register' ? 'active' : ''))
+									a(href="./register")
+										i(class=(data.screen === 'register' ? 'fa fa-circle-o text-yellow' : 'fa fa-circle-o'))
+										|  Register Shop
+
+					ul.sidebar-menu
+						li.header  Developer
 						li
-							a(href='./') Home
-						li.dropdown
-							a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false') API 
-								span.caret
-							ul.dropdown-menu(role='menu')
-								li
-									a(href='/member') Member
-								li
-									a(href='/shop') Shop
-								li
-									a(href='/product') Product
-								li
-									a(href='/order') Order
-								li
-									a(href='/master') Master
-								li
-									a(href='/utilities') Utilities
-								li
-									a(href='/system') System
+							a(href="./console")
+								i.fa.fa-heart
+								span  API Console
 
-		div.container
-			block content
-		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
-		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
-		script(src='/javascripts/jquery.jsonview.js')
-		script(src='/javascripts/app.js')
-		- if (locals.script)
-			script(src=script)
+			div.content-wrapper
+				section.content-header
+					h1= data.title
+						small= data.titleDescription
+				section.content
+					block content
+
+			footer.main-footer
+				div.pull-right.hidden-xs  API Version  
+					b 2.0
+				strong  Copyright &copy; 2015 
+					a(href="https://www.RemaxThailand.co.th") RemaxThailand
+				|  All rights reserved.
+
+		script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js')
+		script(src='//cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.js')
+		script(src='//src.remaxthailand.co.th/libs/adminlte/2.3.0/js/app.min.js')
+		script(src='/javascripts/common.js')

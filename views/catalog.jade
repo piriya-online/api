@@ -1,0 +1,253 @@
+extends layout
+
+block content
+
+	#accordion.panel-group(role='tablist', aria-multiselectable='true')
+
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#info', aria-expanded='false')
+						strong Catalog Information  
+						| &#58; ข้อมูลแคตตาล็อก
+			#info.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/info
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   Member Key
+								.form-group
+									label.col-sm-2.control-label(for='input') Customer Name
+									.col-sm-10
+										input.form-control.customerName(type='text', placeholder='Customer Name')
+										p.help-block
+											span.font-pre.label.label-warning customerName
+											|   Member Key
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab')
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#product', aria-expanded='false')
+						strong Product Information Select Price  
+						| &#58; ข้อมูลสินค้า
+			#product.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/product
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Category
+									.col-sm-10
+										input.form-control.category(type='text', placeholder='Category')
+										p.help-block
+											span.font-pre.label.label-warning category
+											|   ประเภทของสินค้า
+								.form-group
+									label.col-sm-2.control-label(for='input') Price
+									.col-sm-10
+										input.form-control.price(type='text', placeholder='Price')
+										p.help-block
+											span.font-pre.label.label-warning price
+											|   ช่องราคาที่เลือก
+								.form-group
+									label.col-sm-2.control-label(for='input') Price SRP
+									.col-sm-10
+										input.form-control.priceSRP(type='text', placeholder='Price SRP')
+										p.help-block
+											span.font-pre.label.label-warning priceSRP
+											|   ช่องราคา SRP
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+							
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab') 
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#add', aria-expanded='false')
+						strong Catalog Add  
+						| &#58; เพิ่มข้อมูลแคตตาล็อก
+			#add.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/add
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   Member Key
+								.form-group
+									label.col-sm-2.control-label(for='input') Product ID
+									.col-sm-10
+										input.form-control.product(type='text', placeholder='Product ID')
+										p.help-block
+											span.font-pre.label.label-warning product
+											|   Product ID
+								.form-group
+									label.col-sm-2.control-label(for='input') Sell Price
+									.col-sm-10
+										input.form-control.sellPrice(type='text', placeholder='Sell Price')
+										p.help-block
+											span.font-pre.label.label-warning sellPrice
+											|   ราคา
+								.form-group
+									label.col-sm-2.control-label(for='input') Price SRP
+									.col-sm-10
+										input.form-control.priceSRP(type='text', placeholder='Price SRP')
+										p.help-block
+											span.font-pre.label.label-warning priceSRP
+											|   ช่องราคา SRP
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab') 
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#summary', aria-expanded='false')
+						strong Catalog Summary  
+						| &#58; สรุปข้อมูลแคตตาล็อก
+			#summary.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/summary
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   Member Key
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab') 
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#detail', aria-expanded='false')
+						strong Catalog Detail  
+						| &#58; รายละเอียดข้อมูลแคตตาล็อก
+			#detail.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/detail
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   Member Key
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab') 
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#confirm', aria-expanded='false')
+						strong Catalog Confirm  
+						| &#58; ยืนยันข้อมูลแคตตาล็อก
+			#confirm.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/confirm
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   Member Key
+								.form-group
+									label.col-sm-2.control-label(for='input') Customer Name
+									.col-sm-10
+										input.form-control.customer(type='text', placeholder='Customer Name')
+										p.help-block
+											span.font-pre.label.label-warning customer
+											|   Customer Name
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+		
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab') 
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#deleteList', aria-expanded='false')
+						strong Catalog Delete List  
+						| &#58; ลบข้อมูลแคตตาล็อก
+			#deleteList.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/confirm
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   Member Key
+								.form-group
+									label.col-sm-2.control-label(for='input') Product ID
+									.col-sm-10
+										input.form-control.product(type='text', placeholder='Product ID'
+										p.help-block
+											span.font-pre.label.label-warning product
+											|   รหัสสินค้า
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
+					
+		.panel.panel-default
+			#headingOne.panel-heading(role='tab') 
+				h4.panel-title
+					a(data-toggle='collapse', data-parent='#accordion', href='#customer', aria-expanded='false')
+						strong Catalog Customer  
+						| &#58; รายชื่อลูกค้า
+			#customer.panel-collapse.collapse(role='tabpanel')
+				.panel-body
+					pre URL : /#{data.screen}/customer
+					.panel.panel-default
+						.panel-body
+							form.form-horizontal
+								.form-group
+									label.col-sm-2.control-label(for='input') Member Key
+									.col-sm-10
+										input.form-control.memberKey(type='text', placeholder='Member Key')
+										p.help-block
+											span.font-pre.label.label-warning memberKey
+											|   Member Key
+								.form-group.margin-bottom-0
+									.col-sm-offset-2.col-sm-10
+										.btn.btn-sm.btn-primary.btn-submit(data-loading-text='Loading...', autocomplete='off') Submit
+					.result.hidden.alert.margin-top-10.margin-bottom-0.font-pre(role='alert')
